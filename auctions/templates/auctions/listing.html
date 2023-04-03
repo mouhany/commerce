@@ -1,9 +1,16 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>View Listings</h2>
-    <img src="{{ auction.image }}" alt="{{ auction.title }}">
-    <h3>{{ auction.title }}</h3>
-    <p>{{ auction.description }}</p>
-    <p>{{ auction.start_bid }}</p>
+    <div class="container mx-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-8 col-lg-7 col-xl-6 p-5 border border-primary">
+                <img src="{{ auction.image }}" class="img-fluid" alt="{{ auction.title }}">
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-5 col-xl-6 p-5 border border-info">
+                <h2>{{ auction.title }}</h2>
+                <p class="text-end">${{ auction.start_bid }}</p>
+                <p>{{ auction.description }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

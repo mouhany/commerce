@@ -2,6 +2,19 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
-    TODO
+    <div class="d-flex flex-wrap justify-content-evenly">
+        {% for auction in auctions %}
+        <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none">
+            <div class="card p-3 border-0" style="width: 18rem;">
+                <img src="{{ auction.image }}" class="card-img-top border-bottom" alt="{{ auction.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ auction.title }}</h5>
+                    <p class="card-text fw-lighter">{{ auction.description }}</p>
+                    <p class="card-text text-end fw-normal">${{ auction.start_bid }}</p>
+                </div>
+            </div>
+        </a>
+            
+        {% endfor %}
+    </div>
 {% endblock %}

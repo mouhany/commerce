@@ -1,15 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-    <div class="d-flex flex-wrap justify-content-evenly">
+    <!-- <h2>Active Listings</h2> -->
+    <div class="d-flex flex-wrap m-5 justify-content-evenly">
         {% for auction in auctions %}
-        <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none">
-            <div class="card p-3 border-0" style="width: 18rem;">
-                <img src="{{ auction.image }}" class="card-img-top border-bottom" alt="{{ auction.title }}">
+        <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none card2">
+            <div class="card border-0 p-3 my-5 mx-3" style="width: 15rem;">
+                <!-- <div class="bg-image hover-zoom"> -->
+                    <img src="{{ auction.image }}" class="card-img-top border-bottom" alt="{{ auction.title }}">
+                <!-- </div> -->
+                
                 <div class="card-body">
-                    <h5 class="card-title">{{ auction.title }}</h5>
-                    <p class="card-text fw-lighter">{{ auction.description }}</p>
+                    <h5 class="card-title py-1">{{ auction.title }}</h5>
+                    <p class="card-text text-truncate fw-lighter">{{ auction.description }}</p>
                     <p class="card-text text-end fw-normal">${{ auction.start_bid }}</p>
                 </div>
             </div>

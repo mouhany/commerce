@@ -1,15 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class="container mx-5">
-        <div class="row">
-            <div class="col-sm-12 col-md-8 col-lg-7 col-xl-6 p-5 border border-primary">
+    <div class="container-fluid my-5">
+        <div class="row mx-5">
+            <div class="col-md-7 col-lg-5 p-5 border border-danger">
                 <img src="{{ auction.image }}" class="img-fluid" alt="{{ auction.title }}">
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-5 col-xl-6 p-5 border border-info">
-                <h2>{{ auction.title }}</h2>
-                <p class="text-end">${{ auction.start_bid }}</p>
-                <p>{{ auction.description }}</p>
+            <div class="col-md-5 col-lg-7 p-5 border border-danger">
+                <h2 class="py-2">{{ auction.title }}</h2>
+                <p class="py-1 text-end">${{ auction.start_bid }}</p>
+                <p class="py-2 fw-lighter">{{ auction.description }}</p>
             </div>
         </div>
     </div>

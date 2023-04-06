@@ -17,6 +17,7 @@ def listing(request, id):
     return render(request, "auctions/listing.html", {
         "auction": Auction.objects.get(pk=id)
     })
+    
 
 def login_view(request):
     if request.method == "POST":

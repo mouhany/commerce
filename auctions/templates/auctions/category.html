@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% for category in categories %}
+<div class="d-flex flex-wrap m-5 justify-content-evenly">
+    <a href="/" class="text-uppercase text-decoration-none text-secondary fw-bold opacity-50">
+        {{category}}
+    </a>
+</div>
+{% endfor %}
+
+{% endblock %}

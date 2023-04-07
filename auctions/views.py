@@ -23,8 +23,14 @@ def category(request):
     return render(request, "auctions/category.html", {
         "categories": Category.objects.all().order_by('category')
     })
+   
+    
+def listing_category(request, cat_id):
+    category = Category.objects.get(pk=cat_id)
+    return render(request, "auctions/index.html", {
+        "auction": Auction.objects.filter(category=category, active=True).order_by('title')
+    })
 
-# def category(request, )
 
 def all(request):
     return render(request, "auctions/index.html", {

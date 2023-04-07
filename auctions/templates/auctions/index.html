@@ -1,23 +1,41 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <!-- <h2>Active Listings</h2> -->
     <div class="d-flex flex-wrap m-5 justify-content-evenly">
         {% for auction in auctions %}
-        <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none card2">
+        <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none">
             <div class="card border-0 p-3 my-5 mx-3" style="width: 15rem;">
-                <!-- <div class="bg-image hover-zoom"> -->
+                <!-- Active listing -->
+                {%if auction.active == True %}
+                    <!-- Active listing with image -->
+                    {% if auction.image %}
                     <img src="{{ auction.image }}" class="card-img-top border-bottom" alt="{{ auction.title }}">
-                <!-- </div> -->
-                
+                    <!-- Active listing no image -->
+                    {% else %}
+                    <img src="https://i.ibb.co/ggyYPM1/no-Photo-Available.jpg" class="card-img-top border-bottom" alt="{{ auction.title }}">
+                    {% endif %}
+                <!-- Closed listing -->
+                {% else %}
+                <div class="position-relative">
+                    <!-- Closed listing with image -->
+                    {% if auction.image %}
+                    <img src="{{ auction.image }}" class="card-img-top rounded-0 border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
+                    <!-- Closed listing no image -->
+                    {% else %}
+                    <img src="https://i.ibb.co/ggyYPM1/no-Photo-Available.jpg" class="card-img-top border-bottom" alt="{{ auction.title }}" style="filter: brightness(75%);">
+                    {% endif %}
+                    <!-- Overlay -->
+                    <h6 class="display-fluid text-white position-absolute top-50 start-50 translate-middle">CLOSED</h6>
+                </div>
+                {% endif %}
+                <!-- Card body -->
                 <div class="card-body">
                     <h5 class="card-title py-1">{{ auction.title }}</h5>
-                    <p class="card-text text-truncate fw-lighter">{{ auction.description }}</p>
+                    <p class="card-text text-truncate fw-lighter small">{{ auction.description }}</p>
                     <p class="card-text text-end fw-normal">${{ auction.start_bid }}</p>
                 </div>
             </div>
         </a>
-            
         {% endfor %}
     </div>
 {% endblock %}

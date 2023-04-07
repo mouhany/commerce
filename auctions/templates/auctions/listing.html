@@ -5,8 +5,29 @@
         <div class="row mx-5">
             <!-- Left -->
             <div class="col-md-7 col-lg-5 p-5">
-                <!-- Image -->
-                <img src="{{ auction.image }}" class="img-fluid" alt="{{ auction.title }}">
+            <!-- Active listing -->
+            {% if auction.active == True %}
+                <!-- Active listing with image -->
+                {% if auction.image %}
+                <img src="{{ auction.image }}" class="img-fluid border-bottom" alt="{{ auction.title }}">
+                <!-- Active listing no image -->
+                {% else %}
+                <img src="https://i.ibb.co/ggyYPM1/no-Photo-Available.jpg" class="img-fluid border-bottom" alt="{{ auction.title }}">
+                {% endif %}
+            <!-- Closed listing -->
+            {% else %}
+                <div class="position-relative">
+                    <!-- Closed listing with image -->
+                    {% if auction.image %}
+                    <img src="{{ auction.image }}" class="img-fluid border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
+                    <!-- Closed listing no image -->
+                    {% else %}
+                    <img src="https://i.ibb.co/ggyYPM1/no-Photo-Available.jpg" class="img-fluid border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
+                    {% endif %}
+                    <!-- Overlay -->
+                    <h3 class="displaly-fluid text-white position-absolute top-50 start-50 translate-middle">CLOSED</h3>
+                </div>
+            {% endif %}
             </div>
             <!-- Right -->
             <div class="col-md-5 col-lg-7 p-5">

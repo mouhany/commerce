@@ -17,7 +17,7 @@ class Auction(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     start_bid = models.FloatField()
-    image = models.URLField()
+    image = models.URLField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default="")
     lister = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="lister")
     watcher = models.ManyToManyField(User, blank=True, null=True, related_name="watcher")
@@ -25,6 +25,9 @@ class Auction(models.Model):
     
     def __str__(self):
         return f"{self.title} by {self.lister}"
+    
+    def empty_image(self):
+        return f""
 
 
 class Bid(models.Model):

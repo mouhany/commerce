@@ -31,7 +31,6 @@ input[type="color"]:focus {
 }
 
 
-.card2:hover,
-.card2:active {
-    opacity: 5%;
+a:hover{
+    text-decoration: underline;
 }

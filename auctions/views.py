@@ -7,9 +7,9 @@ from django.urls import reverse
 from .models import User, Auction, Category #, Bid, Comment
 
 
-def index(request):
+def index(request, active=True):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.all()
+        "auctions": Auction.objects.filter(active=active).order_by('title')
     })
 
 
@@ -17,13 +17,26 @@ def listing(request, id):
     return render(request, "auctions/listing.html", {
         "auction": Auction.objects.get(pk=id)
     })
-    
+
 
 def category(request):
     return render(request, "auctions/category.html", {
-        "categories": Category.objects.all()
+        "categories": Category.objects.all().order_by('category')
     })
-    
+
+# def category(request, )
+
+def all(request):
+    return render(request, "auctions/index.html", {
+        "auctions": Auction.objects.all().order_by('title')
+    })
+
+
+def closed(request, active=False):
+    return render(request, "auctions/index.html", {
+        "auctions": Auction.objects.filter(active=active).order_by('title')
+    })
+
 
 def login_view(request):
     if request.method == "POST":

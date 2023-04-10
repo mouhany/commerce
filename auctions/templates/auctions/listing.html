@@ -12,7 +12,7 @@
                 <img src="{{ auction.image }}" class="img-fluid border-bottom" alt="{{ auction.title }}">
                 <!-- Active listing no image -->
                 {% else %}
-                <img src="https://i.ibb.co/ggyYPM1/no-Photo-Available.jpg" class="img-fluid border-bottom" alt="{{ auction.title }}">
+                <img src="https://i.imgur.com/vLDtrNC.jpg" class="img-fluid border-bottom" alt="{{ auction.title }}">
                 {% endif %}
             <!-- Closed listing -->
             {% else %}
@@ -22,7 +22,7 @@
                     <img src="{{ auction.image }}" class="img-fluid border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
                     <!-- Closed listing no image -->
                     {% else %}
-                    <img src="https://i.ibb.co/ggyYPM1/no-Photo-Available.jpg" class="img-fluid border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
+                    <img src="https://i.imgur.com/vLDtrNC.jpg" class="img-fluid border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
                     {% endif %}
                     <!-- Overlay -->
                     <h3 class="displaly-fluid text-white position-absolute top-50 start-50 translate-middle">CLOSED</h3>
@@ -36,8 +36,8 @@
                     <ol class="breadcrumb mb-1">
                         <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}" class="text-decoration-none text-secondary fw-bold opacity-25">Listing</a></li>
                         <li class="breadcrumb-item text-uppercase active" aria-current="page">
-                            <!-- <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none text-secondary fw-bold opacity-25">{{auction.category}}</a> -->
-                            <a href="{% url 'listing_category' category=auction.category %}"
+                            <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none text-secondary fw-bold opacity-25">{{auction.category}}</a>
+                            <a href="{% url 'listing_category' auction.category %}"
                                 class="text-decoration-none text-secondary fw-bold opacity-25">{{auction.category}}</a>
                         </li>
                     </ol>

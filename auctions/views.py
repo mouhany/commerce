@@ -9,7 +9,22 @@ from .models import User, Auction, Category #, Bid, Comment
 
 def index(request, active=True):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(active=active).order_by('title')
+        "auctions": Auction.objects.filter(active=active).order_by('title'),
+        "headline": "Active Listings:"
+    })
+    
+    
+def all(request):
+    return render(request, "auctions/index.html", {
+        "auctions": Auction.objects.all().order_by('title'),
+        "headline": "All Listings:"
+    })
+
+
+def closed(request, active=False):
+    return render(request, "auctions/index.html", {
+        "auctions": Auction.objects.filter(active=active).order_by('title'),
+        "headline": "Closed Listings:"
     })
 
 
@@ -19,28 +34,17 @@ def listing(request, id):
     })
 
 
-def category(request):
-    return render(request, "auctions/category.html", {
+def categories(request):
+    return render(request, "auctions/categories.html", {
         "categories": Category.objects.all().order_by('category')
     })
-   
-    
-def listing_category(request, cat_id):
-    category = Category.objects.get(pk=cat_id)
+
+
+def listing_category(request, category_name):
+    category = Category.objects.get(category=category_name)
     return render(request, "auctions/index.html", {
-        "auction": Auction.objects.filter(category=category, active=True).order_by('title')
-    })
-
-
-def all(request):
-    return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.all().order_by('title')
-    })
-
-
-def closed(request, active=False):
-    return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(active=active).order_by('title')
+        "auctions": Auction.objects.filter(category=category, active=True).order_by('title'),
+        "headline": f"Category: {category_name}"
     })
 
 

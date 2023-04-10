@@ -17,7 +17,7 @@
         <nav class="mx-5 navbar navbar-expand-lg navbar-white bg-white sticky-top border-bottom">
             <div class="mx-5 container-fluid">
                 <!-- Title -->
-                <a class="navbar-brand me-3" href="/">
+                <a class="text-decoration-none navbar-brand me-3" href="/">
                     <h4 class="fw-bold">A U C T I O N S</h4>
                 </a>
                 <!-- Dropdown button -->
@@ -35,7 +35,7 @@
                             <a class="nav-link me-2" aria-current="page" href="{% url 'closed' %}">Closed Listings</a>
                         </li>
                         <li class= "nav-item">
-                            <a class="nav-link me-2" href="{% url 'category' %}">Categories</a>
+                            <a class="nav-link me-2" href="{% url 'categories' %}">Categories</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link me-2" href="/">Watchlist</a>
@@ -51,15 +51,15 @@
                             <i class="bi bi-person-fill me-1"></i>{{ user.username }}
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                            <li><a class="dropdown-item text-decoration-none" href="{% url 'logout' %}">Log Out</a></li>
                         </ul>
                         {% else %}
                         <div class="dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Log In / Regiser
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a class="nav-item dropdown-item" href="{% url 'login' %}">Log In</a></li>
-                            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            <li><a class="text-decoration-none dropdown-item" href="{% url 'login' %}">Log In</a></li>
+                            <li><a class="text-decoration-none dropdown-item" href="{% url 'register' %}">Register</a></li>
                         </ul>
                         {% endif %}
                     </span>

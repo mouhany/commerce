@@ -48,6 +48,13 @@ def listing_category(request, category_name):
     })
 
 
+def create(request):
+    if request.method == "GET":
+        return render(request, "auctions/create.html", {
+            "categories" : Category.objects.all().order_by('category')
+        })
+
+
 def login_view(request):
     if request.method == "POST":
 

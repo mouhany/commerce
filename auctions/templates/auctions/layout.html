@@ -28,20 +28,25 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <!-- Links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- All listings -->
                         <li class="nav-item">
                             <a class="nav-link me-2" aria-current="page" href="{% url 'all' %}">All Listings</a>
                         </li>
+                        <!-- Closed listings -->
                         <li class="nav-item">
                             <a class="nav-link me-2" aria-current="page" href="{% url 'closed' %}">Closed Listings</a>
                         </li>
+                        <!-- Categories -->
                         <li class= "nav-item">
                             <a class="nav-link me-2" href="{% url 'categories' %}">Categories</a>
                         </li>
+                        <!-- Watchlist -->
                         <li class="nav-item">
                             <a class="nav-link me-2" href="/">Watchlist</a>
                         </li>
+                        <!-- Create listing -->
                         <li class="nav-item">
-                            <a class="nav-link me-2" href="/">Create Listing</a>
+                            <a class="nav-link me-2" href="{% url 'create' %}">Create Listing</a>
                         </li>
                     </ul>
                     <!-- Account -->

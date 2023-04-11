@@ -8,6 +8,7 @@ body {
 
 /* Input fields (hover/focus) */
 textarea:focus,
+textarea:hover,
 .card:hover,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -25,7 +26,8 @@ input[type="tel"]:focus,
 input[type="checkbox"]:hover,
 input[type="color"]:focus {
     border-color: rgba(20, 20, 2, 0.1);
-    /* box-shadow: 0 1px 1px rgba(20, 20, 2, 0.075) inset, 0 0 8px rgba(20, 20, 2, 0.2); */
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     outline: none;
     transition: var(--maintransition);
 }
@@ -34,4 +36,6 @@ input[type="color"]:focus {
 a:hover,
 a:active {
     text-decoration: underline;
+    text-decoration-color:#dee2e6;
+    /* transition: var(--maintransition); */
 }

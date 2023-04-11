@@ -1,0 +1,49 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+<div class="m-5 container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <div class="mx-5">
+
+                <h2 class="mb-3">Create Listing: </h2>
+
+                <form action="{% url 'create' %}" method="post" class="my-4">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <input type="text" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="title" placeholder="Title" autocomplete="off">
+                    </div>
+                    <div class="form-group mb-3">
+                        <textarea class="rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="description" placeholder="Descriptions"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="number" step="any" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="start_bid"
+                            placeholder="Start Bid" autocomplete="off">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="url" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="title"
+                            placeholder="Image URL" autocomplete="off">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input list="category_names" class="rounded-0 border-0 border border-bottom form-control mb-3" name="category" placeholder="Category">
+                        <datalist id="category_names">
+                            {% for category in categories %}
+                            <option value="{{ category }}">
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <input class="btn btn-dark" type="submit" value="Create Listing">
+                        </div>
+                    </div>
+
+                    
+
+                </form>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

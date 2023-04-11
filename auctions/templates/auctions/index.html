@@ -10,7 +10,8 @@
 <div class="d-flex flex-wrap mx-5 justify-content-evenly">
     {% for auction in auctions %}
     <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none">
-        <div class="card border-0 p-3 my-5 mx-3" style="width: 15rem;">
+        <!-- <div class="position-relative border-1 card mb-5" style="width: 15rem;"> -->
+        <div class="card rounded-0 border-0 p-3 my-5 mx-3" style="width: 15rem;">
             <!-- Active listing -->
             {%if auction.active == True %}
                 <!-- Active listing with image -->

@@ -6,43 +6,46 @@
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12">
             <div class="mx-5">
-
+                <!-- Headline -->
                 <h2 class="mb-3">Create Listing: </h2>
 
                 <form action="{% url 'create' %}" method="post" class="my-4">
                     {% csrf_token %}
+                    <!-- Title -->
                     <div class="form-group mb-3">
                         <input type="text" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="title" placeholder="Title" autocomplete="off">
                     </div>
+                    <!-- Description -->
                     <div class="form-group mb-3">
-                        <textarea class="rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="description" placeholder="Descriptions"></textarea>
+                        <textarea class="i_desc rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="description" placeholder="Descriptions"></textarea>
                     </div>
-                    <div class="form-group mb-3">
-                        <input type="number" step="any" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="start_bid"
-                            placeholder="Start Bid" autocomplete="off">
+                    <!-- Start bid -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text rounded-0 border-0 border border-bottom mb-3">$</span>
+                        <input type="number" step="any" class="rounded-0 border-0 border border-bottom form-control mb-3" placeholder="Start Bid" autocomplete="off" >
                     </div>
+                    <!-- Image URL -->
                     <div class="form-group mb-3">
                         <input type="url" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="title"
                             placeholder="Image URL" autocomplete="off">
                     </div>
+                    <!-- Category -->
                     <div class="form-group mb-3">
-                        <input list="category_names" class="rounded-0 border-0 border border-bottom form-control mb-3" name="category" placeholder="Category">
+                        <input list="category_names" class="i_list rounded-0 border-0 border border-bottom form-control mb-3" name="category" placeholder="Category">
                         <datalist id="category_names">
                             {% for category in categories %}
                             <option value="{{ category }}">
                             {% endfor %}
                         </datalist>
                     </div>
+                    <!-- Submit -->
                     <div class="row">
                         <div class="col-4">
                             <input class="btn btn-dark" type="submit" value="Create Listing">
                         </div>
                     </div>
-
-                    
-
                 </form>
-</div>
+            </div>
         </div>
     </div>
 </div>

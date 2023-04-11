@@ -3,8 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
-from .models import User, Auction, Category #, Bid, Comment
+from .models import User, Auction, Category, Bid, Comment
 
 
 def index(request, active=True):
@@ -13,13 +14,11 @@ def index(request, active=True):
         "headline": "Active Listings:"
     })
     
-    
 def all(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.all().order_by('title'),
         "headline": "All Listings:"
     })
-
 
 def closed(request, active=False):
     return render(request, "auctions/index.html", {
@@ -27,18 +26,15 @@ def closed(request, active=False):
         "headline": "Closed Listings:"
     })
 
-
 def listing(request, id):
     return render(request, "auctions/listing.html", {
         "auction": Auction.objects.get(pk=id)
     })
 
-
 def categories(request):
     return render(request, "auctions/categories.html", {
         "categories": Category.objects.all().order_by('category')
     })
-
 
 def listing_category(request, category_name):
     category = Category.objects.get(category=category_name)
@@ -47,13 +43,19 @@ def listing_category(request, category_name):
         "headline": f"Category: {category_name}"
     })
 
-
-def create(request):
+@login_required(login_url='login')
+def create(request, user):
     if request.method == "GET":
         return render(request, "auctions/create.html", {
             "categories" : Category.objects.all().order_by('category')
         })
-
+    # else:
+    #     title = request.POST['title']
+    #     description = request.POST['description']
+    #     start_bid = request.POST['start_bid']
+    #     image = request.POST['image']
+    #     category = request.POST['category']
+    #     lister = User.objects.get(username=user)
 
 def login_view(request):
     if request.method == "POST":
@@ -74,11 +76,9 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":

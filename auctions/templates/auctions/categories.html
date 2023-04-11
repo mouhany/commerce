@@ -3,12 +3,19 @@
 {% block body %}
 
 
-<div class="d-flex flex-wrap m-5 justify-content-evenly border border-danger">
+<div class="d-flex flex-wrap m-5 justify-content-evenly border border-primary">
     {% for category in categories %}
-        <a href="{% url 'listing_category' category_name=category %}" class="text-uppercase text-decoration-none text-secondary fw-bold opacity-75 border border-primary">
+    <div class="mb-2 d-block">
+        
+        <a href="{% url 'listing_category' category_name=category %}"
+        class="text-uppercase text-decoration-none text-secondary fw-bold opacity-75 border border-danger">
             {{category}}
         </a>
+        
+    </div>
     {% endfor %}
+        
+    
 </div>
 
 

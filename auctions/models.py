@@ -9,6 +9,9 @@ class User(AbstractUser):
 class Category(models.Model):
     category = models.CharField(max_length=255)
     
+    class Meta:
+        ordering = ["category"]
+    
     def __str__(self):
         return self.category
 
@@ -23,17 +26,20 @@ class Auction(models.Model):
     watcher = models.ManyToManyField(User, blank=True, null=True, related_name="watcher")
     active = models.BooleanField(default=True)
     
+    class Meta:
+        ordering = ["title"]
+    
     def __str__(self):
         return f"{self.title} by {self.lister}"
-    
-    def empty_image(self):
-        return f""
 
 
 class Bid(models.Model):
     listing = models.ForeignKey(Auction, on_delete=models.CASCADE)
     new_bid = models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ["-new_bid"]
 
     def __str__(self):
         return f"{self.user} bids ${self.new_bid} on {self.listing}"
@@ -44,6 +50,9 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default="deleted_user")
     date = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
+
+    class Meta:
+        ordering = ["date"]
 
     def __str__(self):
         return f"{self.user} commented on {self.listing}: {self.comment}"

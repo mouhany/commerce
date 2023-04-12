@@ -17,8 +17,8 @@
                         <input type="password" class="rounded-0 border-0 border border-bottom form-control mb-3" name="password" placeholder="Password">
                     </div>
                     <div class="row">
-                        <div class="col-4">
-                            <input class="btn btn-dark" type="submit" value="Login">
+                        <div class="col-4 ">
+                            <input class="btn btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Login">
                         </div>
                         <div class="col-8">
                             {% if message %}
@@ -27,9 +27,7 @@
                         </div>
                     </div>
                 </form>
-                
-                Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
+                <p class="fw-lighter mb-0">Don't have an account? <a href="{% url 'register' %}" class="fw-normal nav-link d-inline mx-1">Register!</a></p>
             </div>
         </div>
     </div>

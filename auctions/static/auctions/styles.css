@@ -1,5 +1,5 @@
 body {
-    padding: 10px;
+    padding: 0px;
 }
 
 :root {
@@ -39,3 +39,7 @@ a:active {
     text-decoration-color:#dee2e6;
     /* transition: var(--maintransition); */
 }
+
+/* hr {
+    opacity: 80%;
+} */

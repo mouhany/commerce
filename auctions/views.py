@@ -10,44 +10,50 @@ from .models import User, Auction, Category, Bid, Comment
 
 def index(request, active=True):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(active=active).order_by('title'),
+        "auctions": Auction.objects.filter(active=active),
         "headline": "Active Listings:"
     })
-    
+
+
 def all(request):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.all().order_by('title'),
+        "auctions": Auction.objects.all(),
         "headline": "All Listings:"
     })
 
+
 def closed(request, active=False):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(active=active).order_by('title'),
+        "auctions": Auction.objects.filter(active=active),
         "headline": "Closed Listings:"
     })
+
 
 def listing(request, id):
     return render(request, "auctions/listing.html", {
         "auction": Auction.objects.get(pk=id)
     })
 
+
 def categories(request):
     return render(request, "auctions/categories.html", {
-        "categories": Category.objects.all().order_by('category')
+        "categories": Category.objects.all()
     })
+
 
 def listing_category(request, category_name):
     category = Category.objects.get(category=category_name)
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(category=category, active=True).order_by('title'),
+        "auctions": Auction.objects.filter(category=category, active=True),
         "headline": f"Category: {category_name}"
     })
 
+
 @login_required(login_url='login')
-def create(request, user):
+def create(request):
     if request.method == "GET":
         return render(request, "auctions/create.html", {
-            "categories" : Category.objects.all().order_by('category')
+            "categories" : Category.objects.all()
         })
     # else:
     #     title = request.POST['title']
@@ -56,6 +62,7 @@ def create(request, user):
     #     image = request.POST['image']
     #     category = request.POST['category']
     #     lister = User.objects.get(username=user)
+
 
 def login_view(request):
     if request.method == "POST":
@@ -76,9 +83,11 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 def register(request):
     if request.method == "POST":

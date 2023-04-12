@@ -26,7 +26,7 @@
 
                     <div class="row">
                         <div class="col-4">
-                            <input class="btn btn-dark" type="submit" value="Register">
+                            <input class="btn btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Register">
                         </div>
                         <div class="col-8">
                             {% if message %}
@@ -36,8 +36,11 @@
                     </div>
 
                 </form>
-                
-                Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+                <p class="fw-lighter mb-0">Already have an account?<a href="{% url 'login' %}"
+                        class="fw-normal nav-link d-inline mx-1">Log In here.</a></p>
+
+
+                <!-- Already have an account? <a href="{% url 'login' %}">Log In here.</a> -->
                 
             </div>
         </div>

@@ -1,16 +1,16 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Auction, Category, Bid, Comment
 
 
-def index(request, active=True):
+def index(request):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(active=active),
+        "auctions": Auction.objects.filter(active=True),
         "headline": "Active Listings:"
     })
 
@@ -55,13 +55,32 @@ def create(request):
         return render(request, "auctions/create.html", {
             "categories" : Category.objects.all()
         })
-    # else:
-    #     title = request.POST['title']
-    #     description = request.POST['description']
-    #     start_bid = request.POST['start_bid']
-    #     image = request.POST['image']
-    #     category = request.POST['category']
-    #     lister = User.objects.get(username=user)
+    else:
+        # title description start_bid image category lister watcher active
+        title = request.POST['title']
+        description = request.POST['description']
+        start_bid = request.POST['start_bid']
+        image = request.POST['image']
+        category = Category.objects.get(category=request.POST['category'])
+        # category = request.POST['category']
+        listing = Auction(
+            title = title, 
+            description = description, 
+            start_bid = start_bid, 
+            image = image, 
+            category = category, 
+            lister = request.user)
+        listing.save()
+        return redirect("index")
+
+
+@login_required(login_url='login')
+def comment(request, id):
+    listing = Auction.objects.get(pk=id)
+    comment = request.POST['comment']
+    new_comment = Comment(listing=listing, user=request.user, comment=comment)
+    new_comment.save()
+    return redirect ("listing", id=id)
 
 
 def login_view(request):

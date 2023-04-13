@@ -36,7 +36,6 @@
                     <ol class="breadcrumb mb-1">
                         <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}" class="text-decoration-none text-secondary fw-bold opacity-25">Listing</a></li>
                         <li class="breadcrumb-item text-uppercase active" aria-current="page">
-                            <a href="{% url 'listing' id=auction.id %}" class="text-decoration-none text-secondary fw-bold opacity-25">{{auction.category}}</a>
                             <a href="{% url 'listing_category' auction.category %}"
                                 class="text-decoration-none text-secondary fw-bold opacity-25">{{auction.category}}</a>
                         </li>
@@ -55,24 +54,20 @@
                 <div class="my-3 border border-primary">
                     <div class="fw-lighter">Highest bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
                 </div>
-
+                <!-- Bid and wishlist -->
                 <div class="d-flex flex-wrap">
+                    <!-- Bid -->
                     <div class="col-6 border border-primary d-flex flex-wrap justify-content-center">
                         <input type="text" class="rounded-0 border-0 border border-bottom form-control mb-3" name="username"
                             placeholder="Enter your bid" autocomplete="off">
                         <input class="btn btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
                             value="Place Bid">
                     </div>
+                    <!-- Wishlist -->
                     <div class="col-6 border border-danger d-flex flex-wrap align-items-end justify-content-center">
                         <input class="btn btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
                             value="Add to Watchlist">
                     </div>
-                    
-                    
-
-
-
-
                 </div>
 
                     

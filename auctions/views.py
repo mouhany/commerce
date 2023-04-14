@@ -22,16 +22,17 @@ def all(request):
     })
 
 
-def closed(request, active=False):
+def closed(request):
     return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(active=active),
+        "auctions": Auction.objects.filter(active=False),
         "headline": "Closed Listings:"
     })
 
 
 def listing(request, id):
     return render(request, "auctions/listing.html", {
-        "auction": Auction.objects.get(pk=id)
+        "auction": Auction.objects.get(pk=id),
+        "comments": Comment.objects.filter(listing=id)
     })
 
 
@@ -56,21 +57,19 @@ def create(request):
             "categories" : Category.objects.all()
         })
     else:
-        # title description start_bid image category lister watcher active
         title = request.POST['title']
         description = request.POST['description']
         start_bid = request.POST['start_bid']
         image = request.POST['image']
         category = Category.objects.get(category=request.POST['category'])
-        # category = request.POST['category']
-        listing = Auction(
+        new_listing = Auction(
             title = title, 
             description = description, 
             start_bid = start_bid, 
             image = image, 
             category = category, 
             lister = request.user)
-        listing.save()
+        new_listing.save()
         return redirect("index")
 
 

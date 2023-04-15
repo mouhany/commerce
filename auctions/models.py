@@ -52,7 +52,7 @@ class Comment(models.Model):
     comment = models.TextField()
 
     class Meta:
-        ordering = ["date"]
+        ordering = ["-date"]
 
     def __str__(self):
         return f"{self.user} commented on {self.listing}: {self.comment}"

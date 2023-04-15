@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container-fluid my-5">
-        <!-- Image and details -->
+
         <div class="row mx-5">
             <!-- Left -->
             <div class="col-md-7 col-lg-5 p-5 border border-primary">
@@ -31,9 +31,9 @@
             {% endif %}
             </div>
             <!-- Right -->
-            <div class="col-md-5 col-lg-7 p-5 border border-danger">
+            <div class="col-md-5 col-lg-7 p-5 border border-primary">
                 <!-- Breadcrumbs -->
-                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' opacity='50%' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"aria-label="breadcrumb" class="small text-muted border border-primary">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' opacity='50%' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"aria-label="breadcrumb" class="small text-muted border border-danger">
                     <ol class="breadcrumb mb-1">
                         <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}" class="text-decoration-none text-secondary fw-bold opacity-50">Listing</a></li>
                         <li class="breadcrumb-item text-uppercase active" aria-current="page">
@@ -47,19 +47,19 @@
                 <!-- Line -->
                 <hr>
                 <!-- Description -->
-                <div class="border border-primary">
+                <div class="border border-danger">
                     <div class="fw-light border border-danger">{{ auction.description }}</div>
                 </div>
                 <!-- Highest bid -->
-                <div class="my-3 border border-primary">
+                <div class="my-3 border border-danger">
                     <div class="fw-light">Highest bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
                 </div>
                 <!-- Bid and Wishlist / Close listing -->
                 <div class="d-flex flex-wrap">
                     <!-- Bid -->
-                    <div class="col-6 border border-primary d-flex flex-wrap justify-content-center">
+                    <div class="col-6 border border-danger d-flex flex-wrap justify-content-center">
                         <input type="text" class="rounded-0 border-0 border border-bottom form-control mb-3" name="username"
-                            placeholder="Enter your bid" autocomplete="off">
+                            placeholder="Your bid" autocomplete="off">
                         <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
                             value="Bid">
                     </div>
@@ -70,7 +70,7 @@
                             value="Close Listing">
                         {% else %}
                         <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
-                            value="Add to Watchlist">
+                            value="Watch">
                         {% endif %}
                     </div>
                 </div>
@@ -79,30 +79,36 @@
             <!-- Comment -->
         </div>
 
-        <div class="row mx-5 border border-primary">
+
+        <!-- Comment -->
+        <div class="row mx-5">
+            <!-- Comment form -->
             <div class="col-md-7 col-lg-5 p-5 border border-danger">
-                Comment form
+                <form action="{% url 'comment' id=auction.id %}" method="post" class="my-4">
+                    {% csrf_token %}
+                    <textarea class="i_desc rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="comment"
+                        placeholder="Add comment"></textarea>
+                    <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Add comment">
+                </form>
             </div>
-            <div class="col-md-5 col-lg-7 p-5 border border-primary">
-                <!-- Comments -->
+            <!-- Listing's comments -->
+            <div class="col-md-5 col-lg-7 p-5 border border-danger">
                 {% for comment in comments %}
-                <div class="d-flex flex-start">
-                    <!-- <img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp"
-                                    alt="avatar" width="60" height="60" /> -->
-                    <div class="my-2">
-                        <h6 class="fw-bold mb-1">{{ comment.user }}</h6>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0">
-                                {{ comment.date }}
-                            </p>
-                            <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
-                            <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
-                            <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                {% if user == comment.user %}
+                <div class="d-flex text-start justify-content-start">
+                {% else %}
+                <div class="d-flex text-end justify-content-end">
+                {% endif %}
+                    <div class="my-3">
+                        <div class="fw-bold">{{ comment.user }}</div>
+                        <div class="small opacity-50 fw-light mb-2">
+                            {{ comment.date }}
                         </div>
-                        <p class="mb-0">
+                        <div class="fw-light ">
                             {{comment.comment}}
-                        </p>
+                        </div>
                     </div>
+                
                 </div>
                 <hr class="my-0" />
                 {% endfor %}

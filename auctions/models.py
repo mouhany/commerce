@@ -55,4 +55,4 @@ class Comment(models.Model):
         ordering = ["-date"]
 
     def __str__(self):
-        return f"{self.user} commented on {self.listing}: {self.comment}"
+        return f"{self.listing} - {self.user} commented {self.comment}"

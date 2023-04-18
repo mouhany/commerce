@@ -7,6 +7,8 @@ body {
 }
 
 /* Input fields (hover/focus) */
+textarea:hover,
+textarea:active,
 .card:hover,
 .i_list:focus,
 .i_desc:focus,

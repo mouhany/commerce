@@ -3,117 +3,130 @@
 {% block body %}
     <div class="container-fluid my-5">
 
+        <!-- Image and details -->
         <div class="row mx-5">
-            <!-- Left -->
-            <div class="col-md-7 col-lg-5 p-5 border border-primary">
+            <!-- Image -->
+            <div class="col-md-7 col-lg-5 px-5 py-3">
             <!-- Active listing -->
             {% if auction.active == True %}
-                <!-- Active listing with image -->
+                <img 
                 {% if auction.image %}
-                <img src="{{ auction.image }}" class="img-fluid border-bottom" alt="{{ auction.title }}">
-                <!-- Active listing no image -->
+                src="{{ auction.image }}"
                 {% else %}
-                <img src="https://i.imgur.com/vLDtrNC.jpg" class="img-fluid border-bottom" alt="{{ auction.title }}">
+                src="https://i.imgur.com/vLDtrNC.jpg"
                 {% endif %}
+                class="img-fluid border-bottom" alt="{{ auction.title }}">
             <!-- Closed listing -->
             {% else %}
                 <div class="position-relative">
-                    <!-- Closed listing with image -->
+                    <img 
                     {% if auction.image %}
-                    <img src="{{ auction.image }}" class="img-fluid border-bottom" alt="{{ auction.title }}" style="filter: brightness(75%);">
-                    <!-- Closed listing no image -->
+                    src="{{ auction.image }}"
                     {% else %}
-                    <img src="https://i.imgur.com/vLDtrNC.jpg" class="img-fluid border-bottom" alt="{{ auction.title}}" style="filter: brightness(75%);">
+                    src="https://i.imgur.com/vLDtrNC.jpg"
                     {% endif %}
+                    class="img-fluid border-bottom" alt="{{ auction.title }}" style="filter: brightness(75%);">
                     <!-- Overlay -->
                     <h3 class="displaly-fluid text-white position-absolute top-50 start-50 translate-middle">CLOSED</h3>
                 </div>
             {% endif %}
             </div>
-            <!-- Right -->
-            <div class="col-md-5 col-lg-7 p-5 border border-primary">
-                <!-- Breadcrumbs -->
-                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' opacity='50%' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"aria-label="breadcrumb" class="small text-muted border border-danger">
-                    <ol class="breadcrumb mb-1">
-                        <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}" class="text-decoration-none text-secondary fw-bold opacity-50">Listing</a></li>
-                        <li class="breadcrumb-item text-uppercase active" aria-current="page">
-                            <a href="{% url 'listing_category' auction.category %}"
-                                class="text-decoration-none text-secondary fw-bold opacity-50">{{auction.category}}</a>
-                        </li>
-                    </ol>
-                </nav>
-                <!-- Title -->
-                <h2 class="border border-danger">{{ auction.title }}</h2> 
-                <!-- Line -->
-                <hr>
-                <!-- Description -->
-                <div class="border border-danger">
-                    <div class="fw-light border border-danger">{{ auction.description }}</div>
-                </div>
-                <!-- Highest bid -->
-                <div class="my-3 border border-danger">
-                    <div class="fw-light">Highest bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
-                </div>
-                <!-- Bid and Wishlist / Close listing -->
-                <div class="d-flex flex-wrap">
+            <!-- Details -->
+            <div class="row col-md-5 col-lg-7 px-5 py-3 container-fluid">
+                <div class="border-bottom">
+
+                    <!-- Breadcrumbs -->
+                    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' opacity='50%' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                        aria-label="breadcrumb" class="small text-muted b-crumb">
+                        <ol class="breadcrumb mb-1">
+                            <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}"
+                                    class="text-decoration-none text-secondary fw-bold opacity-50">Listing</a></li>
+                            <li class="breadcrumb-item text-uppercase active" aria-current="page">
+                                <a href="{% url 'listing_category' auction.category %}"
+                                    class="text-decoration-none text-secondary fw-bold opacity-50">{{auction.category}}</a>
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <!-- Title -->
+                    <h2 class="my-0 d-inline">{{ auction.title }}</h2> <span class="text-end small text-muted fw-light text-end">by {{ auction.lister }}</span>
+
+                    <!-- Line -->
+                    <hr>
+
+                    <!-- Description -->
+                    <div class="my-0">
+                        <div class="fw-light">{{ auction.description }}</div>
+                    </div>
+
                     <!-- Bid -->
-                    <div class="col-6 border border-danger d-flex flex-wrap justify-content-center">
-                        <input type="text" class="rounded-0 border-0 border border-bottom form-control mb-3" name="username"
-                            placeholder="Your bid" autocomplete="off">
-                        <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
-                            value="Bid">
+                    <div class="my-0">
+                        <div class="fw-light my-3">Highest bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
+                        <div class="d-flex flex-wrap">
+                            <!-- Bid -->
+                            <div class="col-6 d-flex flex-wrap justify-content-center">
+                                <input type="number" class="rounded-0 border-0 border border-bottom form-control mb-3" name="bid" placeholder="Your bid" autocomplete="off">
+                                <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Bid">
+                            </div>
+
+                            <!-- <div class="input-group mb-3">
+                                <span class="input-group-text rounded-0 border-0 border border-bottom mb-3">$</span>
+                                <input type="number" step="any" class="rounded-0 border-0 border border-bottom form-control mb-3"
+                                    placeholder="Start Bid" autocomplete="off" name="start_bid">
+                            </div> -->
+
+                            <!-- Wishlist / Close listing -->
+                            <div class="col-6 d-flex flex-wrap align-items-end justify-content-center">
+                                {% if user == auction.lister %}
+                                <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75"
+                                    type="submit" value="Close Listing">
+                                {% else %}
+                                <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75"
+                                    type="submit" value="Watch">
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    <!-- Wishlist / Close listing -->
-                    <div class="col-6 border border-danger d-flex flex-wrap align-items-end justify-content-center">
-                        {% if user == auction.lister %}
-                        <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
-                            value="Close Listing">
-                        {% else %}
-                        <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
-                            value="Watch">
-                        {% endif %}
-                    </div>
+
                 </div>
-                <div class="py-3 fw-light border border-danger">Listed by {{auction.lister}}</div>
             </div>
-            <!-- Comment -->
         </div>
 
 
         <!-- Comment -->
         <div class="row mx-5">
             <!-- Comment form -->
-            <div class="col-md-7 col-lg-5 p-5 border border-danger">
+            <div class="col-md-7 col-lg-5 px-5 py-3">
                 <form action="{% url 'comment' id=auction.id %}" method="post" class="my-4">
                     {% csrf_token %}
                     <textarea class="i_desc rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="comment"
                         placeholder="Add comment"></textarea>
-                    <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Add comment">
+                    <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Post">
                 </form>
             </div>
             <!-- Listing's comments -->
-            <div class="col-md-5 col-lg-7 p-5 border border-danger">
-                {% for comment in comments %}
-                {% if user == comment.user %}
+            <div class="col-md-5 col-lg-7 px-5 py-3">
+            {% if not comments %}
+                <div class="fw-light text-center">
+                    No comments.
+                </div>
+            {% else %}
+            {% for comment in comments %}
+                {% if auction.lister != comment.user %}
                 <div class="d-flex text-start justify-content-start">
                 {% else %}
                 <div class="d-flex text-end justify-content-end">
                 {% endif %}
                     <div class="my-3">
                         <div class="fw-bold">{{ comment.user }}</div>
-                        <div class="small opacity-50 fw-light mb-2">
-                            {{ comment.date }}
-                        </div>
-                        <div class="fw-light ">
-                            {{comment.comment}}
-                        </div>
+                        <div class="small opacity-50 fw-light mb-2">{{ comment.date }}</div>
+                        <div class="fw-light ">{{comment.comment}}</div>
                     </div>
-                
                 </div>
-                <hr class="my-0" />
-                {% endfor %}
+                <hr>
+            {% endfor %}
             </div>
-            
+            {% endif %}
         </div>
     </div>
 </div>

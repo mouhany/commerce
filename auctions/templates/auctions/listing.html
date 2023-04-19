@@ -3,21 +3,21 @@
 {% block body %}
     <div class="container-fluid my-5">
 
-        <!-- Image and details -->
         <div class="row mx-5">
+
             <!-- Image -->
             <div class="col-md-7 col-lg-5 px-5 py-3">
-            <!-- Active listing -->
-            {% if auction.active == True %}
+                <!-- Active listing -->
+                {% if auction.active == True %}
                 <img 
                 {% if auction.image %}
                 src="{{ auction.image }}"
                 {% else %}
                 src="https://i.imgur.com/vLDtrNC.jpg"
                 {% endif %}
-                class="img-fluid border-bottom" alt="{{ auction.title }}">
-            <!-- Closed listing -->
-            {% else %}
+                class="img-fluid" alt="{{ auction.title }}">
+                <!-- Closed listing -->
+                {% else %}
                 <div class="position-relative">
                     <img 
                     {% if auction.image %}
@@ -25,15 +25,21 @@
                     {% else %}
                     src="https://i.imgur.com/vLDtrNC.jpg"
                     {% endif %}
-                    class="img-fluid border-bottom" alt="{{ auction.title }}" style="filter: brightness(75%);">
+                    class="img-fluid" alt="{{ auction.title }}" style="filter: brightness(75%);">
                     <!-- Overlay -->
                     <h3 class="displaly-fluid text-white position-absolute top-50 start-50 translate-middle">CLOSED</h3>
                 </div>
-            {% endif %}
+                {% endif %}
+
+                <!-- Line -->
+                <hr>
+
             </div>
+
+
             <!-- Details -->
             <div class="row col-md-5 col-lg-7 px-5 py-3 container-fluid">
-                <div class="border-bottom">
+                <!-- <div class="border-bottom"> -->
 
                     <!-- Breadcrumbs -->
                     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' opacity='50%' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
@@ -49,7 +55,8 @@
                     </nav>
 
                     <!-- Title -->
-                    <h2 class="my-0 d-inline">{{ auction.title }}</h2> <span class="text-end small text-muted fw-light text-end">by {{ auction.lister }}</span>
+                    <h2 class="my-0 d-inline">{{ auction.title }}</h2>
+                    <span class="text-end small text-muted fw-light text-end">by {{ auction.lister }}</span>
 
                     <!-- Line -->
                     <hr>
@@ -60,14 +67,18 @@
                     </div>
 
                     <!-- Bid -->
-                    <div class="my-0">
-                        <div class="fw-light my-3">Highest bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
+                    <div class="my-4">
+                        <div class="fw-light my-3">Start bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
+                        <div class="fw-light my-3">Current bid: <span class="fw-bold">${{ auction.current_bid }}</span></div>
                         <div class="d-flex flex-wrap">
                             <!-- Bid -->
-                            <div class="col-6 d-flex flex-wrap justify-content-center">
-                                <input type="number" class="rounded-0 border-0 border border-bottom form-control mb-3" name="bid" placeholder="Your bid" autocomplete="off">
-                                <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Bid">
-                            </div>
+                            <form action="{% url 'bid' id=auction.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="col-6 d-flex flex-wrap justify-content-center">
+                                    <input type="number" class="rounded-0 border-0 border border-bottom form-control mb-3" name="bid" placeholder="Your bid" autocomplete="off">
+                                    <input class="btn btn-sm btn-light text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Bid">
+                                </div>
+                            </form>
 
                             <!-- <div class="input-group mb-3">
                                 <span class="input-group-text rounded-0 border-0 border border-bottom mb-3">$</span>
@@ -88,8 +99,10 @@
                         </div>
                     </div>
 
-                </div>
+                <!-- </div> -->
+                <!-- <hr> -->
             </div>
+
         </div>
 
 
@@ -117,7 +130,7 @@
                 {% else %}
                 <div class="d-flex text-end justify-content-end">
                 {% endif %}
-                    <div class="my-3">
+                    <div>
                         <div class="fw-bold">{{ comment.user }}</div>
                         <div class="small opacity-50 fw-light mb-2">{{ comment.date }}</div>
                         <div class="fw-light ">{{comment.comment}}</div>

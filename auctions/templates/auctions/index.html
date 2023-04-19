@@ -40,8 +40,15 @@
             <div class="card-body">
                 <h5 class="card-title py-1">{{ auction.title }}</h5>
                 <p class="card-text text-truncate fw-light small">{{ auction.description }}</p>
-                <p class="card-text text-start fw-normal">{{ num_of_bids }}</p>
-                <p class="card-text text-end fw-normal">${{ auction.start_bid }}</p>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="card-text text-start fw-normal small text-muted">{{ auction.num_of_bids }} bid(s)</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="card-text text-end fw-normal">${{ auction.current_bid }}</p>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </a>

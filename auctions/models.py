@@ -32,11 +32,20 @@ class Auction(models.Model):
     def __str__(self):
         return f"{self.title} by {self.lister}"
 
+    def num_of_bids(self):
+        return len(self.bids.all())
+
+    def current_bid(self):
+        if len(self.bids.all()) == 0:
+            return self.start_bid
+        else:
+            return self.bids.all().order_by("-new_bid").first().new_bid
+    
 
 class Bid(models.Model):
-    listing = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bids")
     new_bid = models.FloatField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
 
     class Meta:
         ordering = ["-new_bid"]

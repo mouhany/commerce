@@ -82,6 +82,23 @@ def comment(request, id):
     return redirect ("listing", id=id)
 
 
+@login_required(login_url='login')
+def bid(request, id):
+    listing = Auction.objects.get(pk=id)
+    amount = float(request.POST['bid'])
+    if amount <= listing.start_bid:
+        # return redirect("listing", id=id, {
+        #     "message": "Bid should be bigger than the current bid"
+        # })
+        return render(request, "auctions/listing.html", {
+            "message": "Amount should be higher than the current bid!"})
+    else:
+        # listing new_bid user
+        new_bid = Bid(listing=listing, new_bid=amount, user=request.user)
+        new_bid.save()
+        return redirect ("listing", id=id)
+
+
 def login_view(request):
     if request.method == "POST":
 

@@ -86,15 +86,15 @@ def comment(request, id):
 def bid(request, id):
     auction = Auction.objects.get(pk=id)
     amount = float(request.POST['bid'])
-    if amount <= auction.current_bid():
+    if auction.current_bid() > amount:
         return render(request, "auctions/listing.html", {
             "auction": auction,
             "message": "Amount should be higher than the current bid!"})
-    # elif request.user == auction.lister:
-    #     return render(request, "auctions.listing.html", {
-    #         "auction": auction,
-    #         "message": "Can't bid on your own listing!"
-    #     })
+    elif auction.lister == request.user:
+        return render(request, "auctions/listing.html", {
+            "auction": auction,
+            "message": "Can't bid on your own listing!"
+        })
     else:
         bid = Bid(listing=auction, new_bid=amount, user=request.user)
         bid.save()

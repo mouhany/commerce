@@ -40,6 +40,9 @@ class Auction(models.Model):
             return self.start_bid
         else:
             return self.bids.all().order_by("-new_bid").first().new_bid
+        
+    def highest_bidder(self):
+        return self.bids.all().order_by("-new_bid").first().user
     
 
 class Bid(models.Model):

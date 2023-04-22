@@ -31,7 +31,7 @@
                     </div>
                     <!-- Category -->
                     <div class="form-group mb-3">
-                        <input list="category_names" class="i_list rounded-0 border-0 border border-bottom form-control mb-3" name="category" placeholder="Category">
+                        <input type="text" list="category_names" class="i_list rounded-0 border-0 border border-bottom form-control mb-3" name="category" placeholder="Category">
                         <datalist id="category_names">
                             {% for category in categories %}
                             <option value="{{ category }}">
@@ -41,7 +41,7 @@
                     <!-- Submit -->
                     <div class="row">
                         <div class="col-4">
-                            <input class="btn btn-sm btn-light" type="submit" value="Create Listing">
+                            <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Create Listing">
                         </div>
                     </div>
                 </form>

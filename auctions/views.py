@@ -86,7 +86,7 @@ def comment(request, id):
 def bid(request, id):
     auction = Auction.objects.get(pk=id)
     amount = float(request.POST['bid'])
-    if auction.current_bid() > amount:
+    if auction.current_bid() > amount and auction.lister != request.user and auction.active == True:
         return render(request, "auctions/listing.html", {
             "auction": auction,
             "message": "Amount should be higher than the current bid!"})
@@ -95,14 +95,34 @@ def bid(request, id):
             "auction": auction,
             "message": "Can't bid on your own listing!"
         })
+    elif auction.active == False:
+        return render(request, "auctions/listing.html", {
+            "auction": auction, 
+            "message": "Can't bid on closed listing!"
+        })
     else:
         bid = Bid(listing=auction, new_bid=amount, user=request.user)
         bid.save()
         return redirect ("listing", id=id)
 
 
-# @login_required(login_url='login')
-# def close_listing(request, id):
+@login_required(login_url='login')
+def close(request, id):
+    auction = Auction.objects.get(pk=id)
+    auction.active = False
+    auction.save()
+    return redirect("listing", id=id)
+
+
+@login_required(login_url='login')
+def activate(request, id):
+    auction = Auction.objects.get(pk=id)
+    auction.active = True
+    auction.save()
+    return render(request, "auctions/listing.html", {
+        "auction": auction,
+        "message": "Listing active!"
+    })
 
 
 def login_view(request):

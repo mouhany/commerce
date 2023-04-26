@@ -10,6 +10,12 @@
 
 <!-- Content -->
 <div class="d-flex flex-wrap mx-5 justify-content-evenly">
+    {% if not auctions %}
+    <div class="my-5">
+        <h1 class="my-5">No items!</h1>
+    </div>
+    
+    {% else %}
     {% for auction in auctions %}
     <a href="{% url 'listing' id=auction.id %}" class="row text-decoration-none">
         <div class="border-0 card rounded-0 position-relative p-3 m-3" style="width: 15rem;">
@@ -40,11 +46,31 @@
             <div class="card-body">
                 <h5 class="card-title py-1">{{ auction.title }}</h5>
                 <p class="card-text text-truncate fw-light small">{{ auction.description }}</p>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="card-text text-start fw-normal small text-muted">{{ auction.num_of_bids }} bid(s)</p>
+                <div class="row mt-4">
+                    <div class="col-7 small">
+                        <!-- Bids -->
+                        {% if auction.num_of_bids != 0%}
+                        <div class="card-text text-start fw-normal small text-muted">
+                            {% if auction.num_of_bids == 1 %}
+                            {{ auction.num_of_bids }} bid
+                            {% else %}
+                            {{ auction.num_of_bids }} bids
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <!-- Watchers -->
+                        {% if auction.num_of_watcher != 0 %}
+                        <div class="card-text text-start fw-normal small text-muted">
+                            {% if auction.num_of_watcher == 1%}
+                            {{ auction.num_of_watcher }} watcher
+                            {% else %}
+                            {{ auction.num_of_watcher }} watchers
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <p class="card-text text-end fw-normal">${{ auction.current_bid }}</p>
                     </div>
                 </div>
@@ -53,6 +79,7 @@
         </div>
     </a>
     {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}

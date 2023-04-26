@@ -4,6 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     pass
+    watchlist = models.ManyToManyField("Auction", blank=True, related_name="watchlist")
 
 
 class Category(models.Model):
@@ -43,7 +44,10 @@ class Auction(models.Model):
         
     def highest_bidder(self):
         return self.bids.all().order_by("-new_bid").first().user
-    
+
+    def num_of_watcher(self):
+        return len(self.watcher.all())
+
 
 class Bid(models.Model):
     listing = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bids")

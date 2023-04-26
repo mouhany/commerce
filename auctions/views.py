@@ -61,7 +61,13 @@ def create(request):
         description = request.POST['description']
         start_bid = request.POST['start_bid']
         image = request.POST['image']
-        category = Category.objects.get(category=request.POST['category'])
+        try:
+            category = Category.objects.get(category=request.POST['category'])
+        except:
+            category = request.POST['category']
+            new_category = Category(category=category)
+            new_category.save()
+            category = Category.objects.get(category)
         new_listing = Auction(
             title = title, 
             description = description, 
@@ -122,6 +128,28 @@ def activate(request, id):
     return render(request, "auctions/listing.html", {
         "auction": auction,
         "message": "Listing active!"
+    })
+
+
+@login_required(login_url='login')
+def watchlist(request, id):
+    # User clicks "add to watchlist" from listing
+    if request.method == "POST":
+        auction = Auction.objects.get(pk=id)
+        new_watchlist = User(watchlist=auction)
+        new_watchlist.save()
+        return render(request, "auctions/listing.html", {
+            "auction": auction,
+            "message": "Added to Watchlist!"
+        })
+        
+@login_required(login_url='login')
+def watchlists(request):
+    # User clicks "watchlist" on navbar
+    watchlist = request.user.watchlist.all()
+    return render(request, "auctions/index.html", {
+        "auctions": watchlist,
+        "headline": "Watchlist:"
     })
 
 

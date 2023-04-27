@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     pass
-    watchlist = models.ManyToManyField("Auction", blank=True, related_name="watchlist")
+    watchlist = models.ManyToManyField("Auction", blank=True, related_name="watcher")
 
 
 class Category(models.Model):
@@ -24,7 +24,6 @@ class Auction(models.Model):
     image = models.URLField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default="")
     lister = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="lister")
-    watcher = models.ManyToManyField(User, blank=True, null=True, related_name="watcher")
     active = models.BooleanField(default=True)
     
     class Meta:

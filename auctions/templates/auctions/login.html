@@ -6,7 +6,7 @@
         <div class="col-lg-6 col-md-8 col-sm-12">
             <div class="mx-5">
 
-                <h2 class="mb-3">Login</h2>
+                <h3 class="mb-3">Login</h3>
                 
                 <form action="{% url 'login' %}" method="post" class="my-4">
                     {% csrf_token %}
@@ -27,7 +27,9 @@
                         </div>
                     </div>
                 </form>
+
                 <p class="fw-light mb-0">Don't have an account? <a href="{% url 'register' %}" class="fw-bold nav-link d-inline mx-1">Register!</a></p>
+
             </div>
         </div>
     </div>

@@ -1,8 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<!-- Headline -->
+<div class="container mx-5 my-2">
+    <div class="mx-5">
+        <h3>{{ headline }}</h3>
+    </div>
+</div>
 
-
+<!-- Content -->
 <div class="d-flex flex-wrap m-5 justify-content-evenly ">
     {% for category in categories %}
     <div class="mb-2 d-block">

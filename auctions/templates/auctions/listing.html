@@ -45,7 +45,7 @@
                         <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}"
                                 class="text-decoration-none text-secondary fw-bold opacity-50">Listing</a></li>
                         <li class="breadcrumb-item text-uppercase active" aria-current="page">
-                            <a href="{% url 'listing_category' auction.category %}"
+                            <a href="{% url 'listing_category' category_name=auction.category %}"
                                 class="text-decoration-none text-secondary fw-bold opacity-50">{{auction.category}}</a>
                         </li>
                     </ol>
@@ -101,11 +101,16 @@
                                 <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Activate Listing" name="open">
                             </form>
 
-                            <!-- Add to watchlist -->
+                            <!-- Add to watchlist / remove from watchlist -->
                             {% else %}
                             <form action="{% url 'watchlist' id=auction.id %}" method="POST">
                                 {% csrf_token %}
-                                <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Watch">
+                                <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit"
+                                {% if user in auction.watcher.all %}
+                                value="Remove"
+                                {% else %}
+                                value="Watch"
+                                {% endif %}>
                             </form>
                             {% endif %}
 

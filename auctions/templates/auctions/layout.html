@@ -20,7 +20,7 @@
                 <a class="text-decoration-none navbar-brand me-3" href="/">
                     <h4 class="fw-bold" style="letter-spacing:5px;">AUCTIONS</h4>
                 </a>
-                <!-- Dropdown button -->
+                <!-- Dropdown button for small screen -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -55,8 +55,14 @@
                         <div class="dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-fill me-1"></i>{{ user.username }}
                         </div>
+
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item text-decoration-none" href="{% url 'logout' %}">Log Out</a></li>
+                            <li class="nav-item">
+                                <a class="text-decoration-none dropdown-item" href="{% url 'my_listings' %}">My Listings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="text-decoration-none dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                            </li>
                         </ul>
                         {% else %}
                         <div class="dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,7 +78,9 @@
             </div>
         </nav>
 
+        <div class="mt-5">
         {% block body %}
         {% endblock %}
+        </div>
     </body>
 </html>

@@ -5,6 +5,7 @@ from django.db import models
 class User(AbstractUser):
     pass
     watchlist = models.ManyToManyField("Auction", blank=True, related_name="watcher")
+    bids = models.ManyToManyField("Auction", blank=True, related_name="bidder")
 
 
 class Category(models.Model):
@@ -51,7 +52,7 @@ class Auction(models.Model):
 class Bid(models.Model):
     listing = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bids")
     new_bid = models.FloatField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["-new_bid"]

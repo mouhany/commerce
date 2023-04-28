@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import User, Auction, Category, Bid, Comment
 
 
+# Active listings
 def index(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.filter(active=True),
@@ -15,6 +16,7 @@ def index(request):
     })
 
 
+# Active and closed listings
 def all(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.all(),
@@ -22,6 +24,7 @@ def all(request):
     })
 
 
+# Closed listings
 def closed(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.filter(active=False),
@@ -29,24 +32,7 @@ def closed(request):
     })
 
 
-def my_listings(request):
-    return render(request, "auctions/index.html", {
-        "auctions": Auction.objects.filter(lister=request.user),
-        "headline": "My Listings:"
-    })
-
-
-# def my_bids(request):
-
-
-def listing(request, id):
-    return render(request, "auctions/listing.html", {
-        "auction": Auction.objects.get(pk=id),
-        "comments": Comment.objects.filter(listing=id)
-    })
-
-
-
+# Categories on navbar
 def categories(request):
     return render(request, "auctions/categories.html", {
         "categories": Category.objects.all(),
@@ -54,6 +40,7 @@ def categories(request):
     })
 
 
+# Active listing on each category in categories
 def listing_category(request, category_name):
     category = Category.objects.get(category=category_name)
     return render(request, "auctions/index.html", {
@@ -62,13 +49,43 @@ def listing_category(request, category_name):
     })
 
 
+# Watchlist on navbar
+@login_required(login_url='login')
+def watchlists(request):
+    watchlist = request.user.watchlist.all()
+    return render(request, "auctions/index.html", {
+        "auctions": watchlist,
+        "headline": "Watchlist:"
+    })
 
+
+# Adds listing to / remove listing from watchlist
+@login_required(login_url='login')
+def watchlist(request, id):
+    if request.method == "POST":
+        auction = Auction.objects.get(pk=id)
+        watchlist = request.user.watchlist.all()
+        # User remove listing from watchlist
+        if auction in watchlist:
+            request.user.watchlist.remove(auction)
+            message = "Removed from Watchlist!"
+        # User adds listing to watchlist
+        else:
+            request.user.watchlist.add(auction)
+            message = "Added to Watchlist!"
+        return render(request, "auctions/listing.html", {
+            "auction": auction,
+            "message": message
+        })
+
+
+# Create new listing
 @login_required(login_url='login')
 def create(request):
     # User clicks "create listing" on navbar
     if request.method == "GET":
         return render(request, "auctions/create.html", {
-            "categories" : Category.objects.all()
+            "categories": Category.objects.all()
         })
     # User submits listing
     else:
@@ -78,15 +95,23 @@ def create(request):
         image = request.POST['image']
         category = Category.objects.get(category=request.POST['category'])
         new_listing = Auction(
-            title = title, 
-            description = description, 
-            start_bid = start_bid, 
-            image = image, 
-            category = category, 
-            lister = request.user)
+            title=title,
+            description=description,
+            start_bid=start_bid,
+            image=image,
+            category=category,
+            lister=request.user)
         new_listing.save()
         return redirect("index")
 
+
+
+# Listing page
+def listing(request, id):
+    return render(request, "auctions/listing.html", {
+        "auction": Auction.objects.get(pk=id),
+        "comments": Comment.objects.filter(listing=id)
+    })
 
 @login_required(login_url='login')
 def comment(request, id):
@@ -94,8 +119,7 @@ def comment(request, id):
     comment = request.POST['comment']
     new_comment = Comment(listing=listing, user=request.user, comment=comment)
     new_comment.save()
-    return redirect ("listing", id=id)
-
+    return redirect("listing", id=id)
 
 @login_required(login_url='login')
 def bid(request, id):
@@ -112,14 +136,14 @@ def bid(request, id):
         })
     elif auction.active == False:
         return render(request, "auctions/listing.html", {
-            "auction": auction, 
+            "auction": auction,
             "message": "Can't bid on closed listing!"
         })
     else:
         bid = Bid(listing=auction, new_bid=amount, user=request.user)
         bid.save()
-        return redirect ("listing", id=id)
-
+        request.user.bids.add(auction)
+        return redirect("listing", id=id)
 
 @login_required(login_url='login')
 def close(request, id):
@@ -127,7 +151,6 @@ def close(request, id):
     auction.active = False
     auction.save()
     return redirect("listing", id=id)
-
 
 @login_required(login_url='login')
 def activate(request, id):
@@ -140,34 +163,20 @@ def activate(request, id):
     })
 
 
-@login_required(login_url='login')
-def watchlists(request):
-    # User clicks "watchlist" on navbar
-    watchlist = request.user.watchlist.all()
+
+# User-related
+def my_listings(request):
     return render(request, "auctions/index.html", {
-        "auctions": watchlist,
-        "headline": "Watchlist:"
+        "auctions": Auction.objects.filter(lister=request.user),
+        "headline": "My Listings:"
     })
 
-
-@login_required(login_url='login')
-def watchlist(request, id):
-    # User adds listing to watchlist
-    if request.method == "POST":
-        auction = Auction.objects.get(pk=id)
-        watchlist = request.user.watchlist.all()
-        if auction in watchlist:
-            request.user.watchlist.remove(auction)
-            message = "Removed from Watchlist!"
-        else:
-            request.user.watchlist.add(auction)
-            message = "Added to Watchlist!"
-        return render(request, "auctions/listing.html", {
-            "auction": auction,
-            "message": message
-        })
-
-
+def my_bids(request):
+    mybids = request.user.bids.all()
+    return render(request, "auctions/index.html", {
+        "auctions": mybids,
+        "headline": "My Bids:"
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -188,11 +197,9 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":

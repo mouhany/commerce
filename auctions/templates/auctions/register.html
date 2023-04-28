@@ -1,15 +1,61 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<!-- Headline -->
+<div class="container mx-5 my-2">
+    <div class="mx-5">
+        <h3>{{ headline }}</h3>
+    </div>
+</div>
 
-<div class="m-5 container-fluid">
+<!-- Content -->
+<div class="mx-5">
+    <form action="{% url 'register' %}" method="post" class="col-lg-6 col-md-8 mx-5 px-2 my-4">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <input class="rounded-0 border-0 border border-bottom form-control mb-3" autofocus type="text" name="username" placeholder="Username" autocomplete="off">
+        </div>
+        <div class="form-group mb-3">
+            <input class="rounded-0 border-0 border border-bottom form-control mb-3" type="email" name="email" placeholder="Email Address">
+        </div>
+        <div class="form-group mb-3">
+            <input class="rounded-0 border-0 border border-bottom form-control mb-3" type="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group mb-3">
+            <input class="rounded-0 border-0 border border-bottom form-control mb-3" type="password" name="confirmation" placeholder="Confirm Password">
+        </div>
+
+        <div class="row my-4">
+            <div class="col-4">
+                <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Register">
+            </div>
+            <div class="col-8 mt-1">
+                {% if message %}
+                <div class="text-muted small">{{ message }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+    </form>
+
+    <p class="mx-5 px-2 my-4 fw-light mb-0">Already have an account?<a href="{% url 'login' %}"
+    class="fw-bold nav-link d-inline mx-1">Log In here.</a></p>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="m-5 container-fluid">
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-12">
             <div class="mx-5">
                 
-                <h3 class="mb-3">Register</h3>
+                <h3 class="mb-3">Register</h3> -->
 
-                <form action="{% url 'register' %}" method="post" class="my-4">
+                <!-- <form action="{% url 'register' %}" method="post" class="my-4">
                     {% csrf_token %}
                     <div class="form-group mb-3">
                         <input class="rounded-0 border-0 border border-bottom form-control mb-3" autofocus type="text" name="username" placeholder="Username" autocomplete="off">
@@ -28,7 +74,7 @@
                         <div class="col-4">
                             <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Register">
                         </div>
-                        <div class="col-8">
+                        <div class="col-8 mt-1">
                             {% if message %}
                             <div class="text-muted small">{{ message }}</div>
                             {% endif %}
@@ -38,10 +84,10 @@
                 </form>
 
                 <p class="fw-light mb-0">Already have an account?<a href="{% url 'login' %}"
-                class="fw-bold nav-link d-inline mx-2">Log In here.</a></p>
+                class="fw-bold nav-link d-inline mx-2">Log In here.</a></p> -->
                 
-            </div>
+            <!-- </div>
         </div>
     </div>
-</div>
+</div> -->
 {% endblock %}

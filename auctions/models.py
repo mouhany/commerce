@@ -55,10 +55,10 @@ class Bid(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ["-new_bid"]
+        ordering = ["listing"]
 
     def __str__(self):
-        return f"{self.user} bids ${self.new_bid} on {self.listing}"
+        return f"{self.listing}: {self.user} bids {self.new_bid}"
 
 
 class Comment(models.Model):
@@ -68,7 +68,7 @@ class Comment(models.Model):
     comment = models.TextField()
 
     class Meta:
-        ordering = ["-date"]
+        ordering = ["listing"]
 
     def __str__(self):
-        return f"{self.listing} - {self.user} commented {self.comment}"
+        return f"{self.listing}: {self.user} commented {self.comment}"

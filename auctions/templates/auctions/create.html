@@ -2,51 +2,59 @@
 
 
 {% block body %}
-<div class="m-5 container-fluid">
-    <div class="row">
-        <div class="col-lg-6 col-md-8 col-sm-12">
-            <div class="mx-5">
-                <!-- Headline -->
-                <h3 class="mb-3">Create Listing: </h3>
-
-                <form action="{% url 'create' %}" method="post" class="my-4">
-                    {% csrf_token %}
-                    <!-- Title -->
-                    <div class="form-group mb-3">
-                        <input type="text" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="title" placeholder="Title" autocomplete="off">
-                    </div>
-                    <!-- Description -->
-                    <div class="form-group mb-3">
-                        <textarea class="i_desc rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="description" placeholder="Descriptions"></textarea>
-                    </div>
-                    <!-- Start bid -->
-                    <div class="input-group mb-3">
-                        <span class="input-group-text rounded-0 border-0 border border-bottom mb-3">$</span>
-                        <input type="number" step="any" class="rounded-0 border-0 border border-bottom form-control mb-3" placeholder="Start Bid" autocomplete="off" name="start_bid">
-                    </div>
-                    <!-- Image URL -->
-                    <div class="form-group mb-3">
-                        <input type="url" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="image"
-                            placeholder="Image URL" autocomplete="off">
-                    </div>
-                    <!-- Category -->
-                    <div class="form-group mb-3">
-                        <input type="text" list="category_names" class="i_list rounded-0 border-0 border border-bottom form-control mb-3" name="category" placeholder="Category">
-                        <datalist id="category_names">
-                            {% for category in categories %}
-                            <option value="{{ category }}">
-                            {% endfor %}
-                        </datalist>
-                    </div>
-                    <!-- Submit -->
-                    <div class="row">
-                        <div class="col-4">
-                            <input class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75" type="submit" value="Create Listing">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+<!-- Headline -->
+<div class="container mx-5 my-2">
+    <div class="mx-5">
+        <h3>{{ headline }}</h3>
     </div>
 </div>
+
+<!-- Content -->
+<div class="mx-5">
+    <form action="{% url 'create' %}" method="post" class="col-lg-6 col-md-8 mx-5 px-2 my-4">
+        {% csrf_token %}
+        <!-- Title -->
+        <div class="form-group mb-3">
+            <input type="text" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="title"
+                placeholder="Title" autocomplete="off">
+        </div>
+        <!-- Description -->
+        <div class="form-group mb-3">
+            <textarea class="i_desc rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="description"
+                placeholder="Descriptions"></textarea>
+        </div>
+        <!-- Start bid -->
+        <div class="input-group mb-3">
+            <span class="input-group-text rounded-0 border-0 border border-bottom mb-3">$</span>
+            <input type="number" step="any" class="rounded-0 border-0 border border-bottom form-control mb-3"
+                placeholder="Start Bid" autocomplete="off" name="start_bid">
+        </div>
+        <!-- Image URL -->
+        <div class="form-group mb-3">
+            <input type="url" autofocus class="rounded-0 border-0 border border-bottom form-control mb-3" name="image"
+                placeholder="Image URL" autocomplete="off">
+        </div>
+        <!-- Category -->
+        <div class="form-group mb-3">
+            <input type="text" list="category_names"
+                class="i_list rounded-0 border-0 border border-bottom form-control mb-3" name="category"
+                placeholder="Category">
+            <datalist id="category_names">
+                {% for category in categories %}
+                <option value="{{ category }}">
+                    {% endfor %}
+            </datalist>
+        </div>
+        <!-- Create listing -->
+        <div class="row my-4">
+            <div class="col-4">
+                <input
+                    class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75"
+                    type="submit" value="Create Listing">
+            </div>
+        </div>
+
+    </form>
+</div>
+
 {% endblock %}

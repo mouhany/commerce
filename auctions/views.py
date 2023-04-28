@@ -12,7 +12,7 @@ from .models import User, Auction, Category, Bid, Comment
 def index(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.filter(active=True),
-        "headline": "Active Listings:"
+        "headline": "Active Listings"
     })
 
 
@@ -20,7 +20,7 @@ def index(request):
 def all(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.all(),
-        "headline": "All Listings:"
+        "headline": "All Listings"
     })
 
 
@@ -28,7 +28,7 @@ def all(request):
 def closed(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.filter(active=False),
-        "headline": "Closed Listings:"
+        "headline": "Closed Listings"
     })
 
 
@@ -36,7 +36,7 @@ def closed(request):
 def categories(request):
     return render(request, "auctions/categories.html", {
         "categories": Category.objects.all(),
-        "headline": f"Categories:"
+        "headline": f"Categories"
     })
 
 
@@ -55,11 +55,11 @@ def watchlists(request):
     watchlist = request.user.watchlist.all()
     return render(request, "auctions/index.html", {
         "auctions": watchlist,
-        "headline": "Watchlist:"
+        "headline": "Watchlist"
     })
 
 
-# Adds listing to / remove listing from watchlist
+# Adds / remove listing to / from watchlist
 @login_required(login_url='login')
 def watchlist(request, id):
     if request.method == "POST":
@@ -85,7 +85,8 @@ def create(request):
     # User clicks "create listing" on navbar
     if request.method == "GET":
         return render(request, "auctions/create.html", {
-            "categories": Category.objects.all()
+            "categories": Category.objects.all(),
+            "headline": "Create Listing"
         })
     # User submits listing
     else:
@@ -113,54 +114,65 @@ def listing(request, id):
         "comments": Comment.objects.filter(listing=id)
     })
 
-@login_required(login_url='login')
-def comment(request, id):
-    listing = Auction.objects.get(pk=id)
-    comment = request.POST['comment']
-    new_comment = Comment(listing=listing, user=request.user, comment=comment)
-    new_comment.save()
-    return redirect("listing", id=id)
+def listed_by(request, username):
+    lister = User.objects.get(username=username)
+    return render(request, "auctions/index.html", {
+        "auctions": Auction.objects.filter(lister=lister),
+        "headline": f"Listings by {username}"
+    })
 
 @login_required(login_url='login')
-def bid(request, id):
-    auction = Auction.objects.get(pk=id)
-    amount = float(request.POST['bid'])
-    if auction.current_bid() > amount and auction.lister != request.user and auction.active == True:
-        return render(request, "auctions/listing.html", {
-            "auction": auction,
-            "message": "Amount should be higher than the current bid!"})
-    elif auction.lister == request.user:
-        return render(request, "auctions/listing.html", {
-            "auction": auction,
-            "message": "Can't bid on your own listing!"
-        })
-    elif auction.active == False:
-        return render(request, "auctions/listing.html", {
-            "auction": auction,
-            "message": "Can't bid on closed listing!"
-        })
-    else:
-        bid = Bid(listing=auction, new_bid=amount, user=request.user)
-        bid.save()
-        request.user.bids.add(auction)
+def comment(request, id):
+    if request.method == "POST":
+        listing = Auction.objects.get(pk=id)
+        comment = request.POST['comment']
+        new_comment = Comment(listing=listing, user=request.user, comment=comment)
+        new_comment.save()
         return redirect("listing", id=id)
 
 @login_required(login_url='login')
+def bid(request, id):
+    if request.method == "POST":
+        auction = Auction.objects.get(pk=id)
+        amount = float(request.POST['bid'])
+        if auction.current_bid() > amount and auction.lister != request.user and auction.active == True:
+            return render(request, "auctions/listing.html", {
+                "auction": auction,
+                "message": "Amount should be higher than the current bid!"})
+        elif auction.lister == request.user:
+            return render(request, "auctions/listing.html", {
+                "auction": auction,
+                "message": "Can't bid on your own listing!"
+            })
+        elif auction.active == False:
+            return render(request, "auctions/listing.html", {
+                "auction": auction,
+                "message": "Can't bid on closed listing!"
+            })
+        else:
+            bid = Bid(listing=auction, new_bid=amount, user=request.user)
+            bid.save()
+            request.user.bids.add(auction)
+            return redirect("listing", id=id)
+
+@login_required(login_url='login')
 def close(request, id):
-    auction = Auction.objects.get(pk=id)
-    auction.active = False
-    auction.save()
-    return redirect("listing", id=id)
+    if request.method == "POST":
+        auction = Auction.objects.get(pk=id)
+        auction.active = False
+        auction.save()
+        return redirect("listing", id=id)
 
 @login_required(login_url='login')
 def activate(request, id):
-    auction = Auction.objects.get(pk=id)
-    auction.active = True
-    auction.save()
-    return render(request, "auctions/listing.html", {
-        "auction": auction,
-        "message": "Listing active!"
-    })
+    if request.method == "POST":
+        auction = Auction.objects.get(pk=id)
+        auction.active = True
+        auction.save()
+        return render(request, "auctions/listing.html", {
+            "auction": auction,
+            "message": "Listing active!"
+        })
 
 
 
@@ -168,17 +180,18 @@ def activate(request, id):
 def my_listings(request):
     return render(request, "auctions/index.html", {
         "auctions": Auction.objects.filter(lister=request.user),
-        "headline": "My Listings:"
+        "headline": "My Listings"
     })
 
 def my_bids(request):
     mybids = request.user.bids.all()
     return render(request, "auctions/index.html", {
         "auctions": mybids,
-        "headline": "My Bids:"
+        "headline": "My Bids"
     })
 
 def login_view(request):
+    headline = "Login"
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -192,16 +205,20 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
+                "message": "Invalid username and/or password.",
+                "headline": headline
             })
     else:
-        return render(request, "auctions/login.html")
+        return render(request, "auctions/login.html", {
+            "headline": headline
+        })
 
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 def register(request):
+    headline = "Register"
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -211,7 +228,8 @@ def register(request):
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(request, "auctions/register.html", {
-                "message": "Passwords must match."
+                "message": "Passwords must match.",
+                "headline": headline
             })
 
         # Attempt to create new user
@@ -220,9 +238,12 @@ def register(request):
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
-                "message": "Username already taken."
+                "message": "Username already taken.",
+                "headline": headline
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/register.html")
+        return render(request, "auctions/register.html", {
+            "headline": headline
+        })

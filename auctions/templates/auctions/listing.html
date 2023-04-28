@@ -54,7 +54,7 @@
                 <!-- Title -->
                 <div class="d-flex flex-wrap align-items-center py-3 border-0 border-bottom">
                     <h2>{{ auction.title }}</h2>
-                    <span class="ms-auto fw-light text-end">Listed by: {{ auction.lister }}</span>
+                    <span class="ms-auto fw-light text-end">Listed by: <a href="{% url 'listed_by' username=auction.lister %}">{{ auction.lister }}</a></span>
                 </div>
 
                 <!-- Description -->
@@ -140,7 +140,7 @@
 
             <!-- Comment form -->
             <div class="col-md-7 col-lg-5 px-5 py-3">
-                <form action="{% url 'comment' id=auction.id %}" method="post" class="my-4">
+                <form action="{% url 'comment' id=auction.id %}" method="POST" class="my-4">
                     {% csrf_token %}
                     <textarea class="i_desc rounded-0 border-0 border border-bottom form-control mb-3" rows="3" name="comment"
                         placeholder="Add comment"></textarea>

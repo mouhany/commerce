@@ -38,15 +38,17 @@
             <!-- Details -->
             <div class="col-md-5 col-lg-7 px-5 py-4">
 
+                <!-- <i class="bi bi-arrow-left"></i> -->
+
                 <!-- Breadcrumbs -->
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' opacity='50%' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb" class="small text-muted b-crumb">
                     <ol class="breadcrumb mb-1">
-                        <li class="breadcrumb-item text-uppercase "><a href="{% url 'index' %}"
-                                class="text-decoration-none text-secondary fw-bold opacity-50">Listing</a></li>
-                        <li class="breadcrumb-item text-uppercase active" aria-current="page">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}"
+                                class="text-decoration-none text-secondary fw-bold opacity-50  text-uppercase">Listing</a></li>
+                        <li class="breadcrumb-item" aria-current="page">
                             <a href="{% url 'listing_category' category_name=auction.category %}"
-                                class="text-decoration-none text-secondary fw-bold opacity-50">{{auction.category}}</a>
+                                class="text-decoration-none text-secondary fw-bold opacity-50 text-uppercase active">{{auction.category}}</a>
                         </li>
                     </ol>
                 </nav>
@@ -54,7 +56,7 @@
                 <!-- Title -->
                 <div class="d-flex flex-wrap align-items-center py-3 border-0 border-bottom">
                     <h2>{{ auction.title }}</h2>
-                    <span class="ms-auto fw-light text-end">Listed by: <a href="{% url 'listed_by' username=auction.lister %}">{{ auction.lister }}</a></span>
+                    <!-- <span class="ms-auto fw-light text-end">Listed by: <a href="{% url 'listed_by' username=auction.lister %}">{{ auction.lister }}</a></span> -->
                 </div>
 
                 <!-- Description -->
@@ -64,9 +66,12 @@
 
                 <!-- Bid -->
                 <div class="py-3">
-                    <div class="fw-light my-2">Start bid: <span class="fw-bold">${{ auction.start_bid }}</span></div>
+                    <div class="fw-light my-2">Listed by:<a href="{% url 'listed_by' username=auction.lister %}" class="text-uppercase active small text-decoration-none text-secondary fw-bold ms-5">{{ auction.lister }}</a></div>
+
+                    <div class="fw-light my-2">Start bid:<span class="text-uppercase active text-decoration-none text-secondary fw-bold ms-5">${{ auction.start_bid }}</span></div>
                     {% if auction.current_bid and auction.highest_bidder %}
-                    <div class="fw-light my-2">Current bid: <span class="fw-bold">${{ auction.current_bid }}</span> by <span class="fw-bold">{{ auction.highest_bidder }}</span> </div>
+                    <div class="fw-light my-2">Current bid:<span class="text-uppercase active text-decoration-none text-secondary fw-bold ms-4"> ${{ auction.current_bid }}</span></div>
+                     <!-- by <span class="text-uppercase active small text-decoration-none text-secondary fw-bold">{{ auction.highest_bidder }}</span> </div> -->
                     {% endif %}
                     <div class="d-flex flex-wrap">
                         <!-- Bid -->

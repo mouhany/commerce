@@ -1,6 +1,6 @@
 # Commerce
 ### [Video Demo](https://www.youtube.com/watch?v=CA5mGlBlIX0)
-### Description: An eBay-like e-commerce auction site that will allow users to post auction listings, place bids on listings, comment on those listings, and add listings to a “watchlist.” Project built with Django.
+### Description: An eBay-like e-commerce auction site that will allow users to post auction listings, place bids on listings, comment on those listings, and add listings to a “watchlist”.
 
 # Specification
 1. Log in and register user.

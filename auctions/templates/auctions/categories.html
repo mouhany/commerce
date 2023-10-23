@@ -2,14 +2,14 @@
 
 {% block body %}
 <!-- Headline -->
-<div class="container mx-5 my-2">
+<div class="mx-5 my-2 container">
     <div class="mx-5">
         <h3>{{ headline }}</h3>
     </div>
 </div>
 
 <!-- Content -->
-<div class="d-flex flex-wrap m-5 justify-content-evenly ">
+<div class="m-5 d-flex flex-wrap justify-content-evenly ">
     {% for category in categories %}
     <div class="mb-2 d-block">
         <div class="btn btn-sm btn-light border rounded-0 text-uppercase text-decoration-none text-secondary fw-bold opacity-75">
@@ -19,6 +19,4 @@
     </div>
     {% endfor %}
 </div>
-
-
 {% endblock %}

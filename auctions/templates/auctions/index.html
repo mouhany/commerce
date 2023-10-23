@@ -2,25 +2,22 @@
 
 {% block body %}
 <!-- Headline -->
-<div class="container mx-5 my-2">
+<div class="mx-5 my-2 container">
     <div class="mx-5">
         <h3>{{ headline }}</h3>
     </div>
 </div>
 
 <!-- Content -->
-<div class="d-flex flex-wrap mx-5 justify-content-evenly">
-    {% if not auctions %}
-
-    <div class="my-5">
-        <h1 class="my-5">No listing!</h1>
-    </div>
-    
-    {% else %}
-
+<div class="mx-5 d-flex flex-wrap justify-content-evenly">
+{% if not auctions %}
+<div class="my-5">
+    <h1 class="my-5">No listing!</h1>
+</div>
+{% else %}
     {% for auction in auctions %}
     <a href="{% url 'listing' id=auction.id %}" class="row text-decoration-none">
-        <div class="border-0 card rounded-0 position-relative p-3 mx-3 my-4" style="width: 15rem;">
+        <div class="p-3 mx-3 my-4 border-0 card rounded-0 position-relative" style="width: 15rem;">
             <!-- Active listing -->
             {%if auction.active == True %}
                 <!-- Active listing with image -->
@@ -46,9 +43,9 @@
             {% endif %}
             <!-- Card body -->
             <div class="card-body">
-                <h5 class="card-title py-1">{{ auction.title }}</h5>
+                <h5 class="py-1 card-title">{{ auction.title }}</h5>
                 <p class="card-text text-truncate fw-light small">{{ auction.description }}</p>
-                <div class="row mt-4">
+                <div class="mt-4 row">
                     <div class="col-7 small">
                         <!-- Bids -->
                         {% if auction.num_of_bids != 0%}
@@ -76,13 +73,10 @@
                         <p class="card-text text-end fw-normal">${{ auction.current_bid }}</p>
                     </div>
                 </div>
-                
             </div>
         </div>
     </a>
     {% endfor %}
-
-    {% endif %}
+{% endif %}
 </div>
-
 {% endblock %}
